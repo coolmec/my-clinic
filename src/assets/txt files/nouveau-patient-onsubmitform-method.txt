@@ -1,0 +1,34 @@
+  onSubmitForm(): void {
+    const patientValue = this.patientForm.value;
+    const newPatient: Patient = {
+      phenotypHb: patientValue.phenotypHb,
+      rhesus: patientValue.rhesus,
+      sexe: patientValue.sexe,
+      allergies: patientValue.allergies,
+      assurance: patientValue.assurance,
+      dateConvPatient: undefined,
+      dateEnreg: new Date(),
+      dateNaiss: patientValue.dateNaiss,
+      email: patientValue.email,
+      groupeSanguin: patientValue.groupeSanguin,
+      id: undefined,
+      login: undefined,
+      mdp: undefined,
+      nationalite: patientValue.nationalite,
+      numAssure: patientValue.numAssure,
+      numAyantDroit: patientValue.numAyantDroit,
+      numIdentite: patientValue.numIdentite,
+      pathologies: patientValue.pathologies,
+      pays: patientValue.pays,
+      pec: patientValue.pec,
+      prenom: patientValue.prenom,
+      quartier: patientValue.quartier,
+      tel1: patientValue.tel1,
+      tel2: patientValue.tel2,
+      typeIdentite: patientValue.typeIdentite,
+      ville: patientValue.ville,
+      nom: patientValue.nom
+    };
+    this.patientService.savePatient(newPatient);
+    this.router.navigate(['/home']);
+  }

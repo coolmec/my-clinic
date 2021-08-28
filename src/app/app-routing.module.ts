@@ -1,10 +1,17 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NouveauPatientComponent} from './components/nouveau-patient/nouveau-patient.component';
+import {ListPatientsComponent} from './components/list-patients/list-patients.component';
+import {HomeComponent} from './components/home/home.component';
 
-const routes: Routes = [];
+const appRoutes: Routes = [
+  {path: 'nouveau-patient', component: NouveauPatientComponent},
+  {path: 'list-patients', component: ListPatientsComponent},
+  {path: '', component: HomeComponent}
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

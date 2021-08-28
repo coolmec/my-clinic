@@ -1,0 +1,13 @@
+/* Mise en forme des liens de la page d'accueil */
+
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
+
+a.homelink {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+div.row.homeline {
+  margin-bottom: 10px;
+}
