@@ -56,8 +56,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/@fortawesome/fontawesome-free/js/fontawesome.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
             ]
           },
           "configurations": {
