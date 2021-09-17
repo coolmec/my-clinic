@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PatientService} from '../../services/patient.service';
 import {Router} from '@angular/router';
 import {Patient} from '../../models/patient';
 import _default, {ICity, ICountry} from 'country-state-city';
+import {outilsInjectionToken} from '../../utilities/outils';
 
 @Component({
   selector: 'app-nouveau-patient',
@@ -12,24 +13,17 @@ import _default, {ICity, ICountry} from 'country-state-city';
 })
 export class NouveauPatientComponent implements OnInit, OnDestroy {
 
-  patientForm: FormGroup; // FormGroup variable declaration
-  typeIdentite = [
-    'PASSEPORT', 'CARTE D\'ELECTEUR', 'PERMIS DE CONDUIRE', 'CNI' // Table for the different Identity doctype
-  ];
-  insurances = [
-    'INAM', 'GRAS SAVOYE', 'SAHAM', 'SUNU', 'FIDELIA', 'GTA', 'PRUDENTIAL', 'LA CITOYENNE' // Table for the different Insurance accepted
-  ];
+  patientForm!: FormGroup; // FormGroup variable declaration
   pays: ICountry[];
   villes: ICity[];
-  mask: string[] =
-    ['SS000000', '0 000 00 00 00 00 00', '000 000 000', '0000 000 0000', 'AAAAAAAAAAAAAAA?']; // mask type applied to Identity doc number
-  selectedMask = '0000 000 0000';
-  selectedCountryPhoneCode = '(+228)';
-  localPhoneCode = '(+228)';
+  selectedCountryPhoneCode = this.outil.selectedCountryPhoneCode;
+  localPhoneCode = this.outil.localPhoneCode;
+  selectedMask: string;
 
   constructor(private formBuilder: FormBuilder,
               private patientService: PatientService,
-              private router: Router) {
+              private router: Router,
+              @Inject(outilsInjectionToken) public outil) {
   }
 
   ngOnInit(): void {
@@ -39,40 +33,8 @@ export class NouveauPatientComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  /**
-   * Fonction that initialise a patient with values entered in the form   *
-   */
-  initPatient(): void {
-    this.patientForm = this.formBuilder.group(
-      {
-        nom: ['', [Validators.required]],
-        prenom: ['', [Validators.required]],
-        dateNaiss: [Date.now(), [Validators.required]],
-        sexe: ['M', [Validators.required]],
-        typeIdentite: ['CNI', [Validators.required]],
-        numIdentite: ['', [Validators.required]],
-        nationalite: ['', [Validators.required]],
-        pays: ['Togo', [Validators.required]],
-        ville: ['Lomé', [Validators.required]],
-        quartier: ['', [Validators.required]],
-        tel1: ['', [Validators.required]],
-        tel2: ['', []],
-        email: ['', [Validators.email]],
-        pec: ['non', [Validators.required]],
-        assurance: ['', []],
-        numAssure: ['', []],
-        numAyantDroit: ['', []],
-        groupSanguin: ['', []],
-        rhesus: ['', []],
-        phenotypHb: ['', []],
-        pathologies: ['Aucune', []],
-        allergies: ['Aucune', []],
-        dateEnreg: [Date.now(), []]
-      }
-    );
-    this.pays = _default.getAllCountries();
-    this.villes = _default.getCitiesOfCountry('TG');
-
+  get nom(): AbstractControl {
+    return this.patientForm.get('nom');
   }
 
   /**
@@ -105,6 +67,42 @@ export class NouveauPatientComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Fonction that initialise a patient with values entered in the form   *
+   */
+  initPatient(): void {
+    this.patientForm = this.formBuilder.group(
+      {
+        nom: ['', [Validators.required]],
+        prenom: ['', [Validators.required]],
+        dateNaiss: ['', [Validators.required]],
+        sexe: ['', [Validators.required]],
+        typeIdentite: ['', [Validators.required]],
+        numIdentite: ['', [Validators.required]],
+        nationalite: ['', [Validators.required]],
+        pays: ['Togo', [Validators.required]],
+        ville: ['Lomé', [Validators.required]],
+        quartier: ['', [Validators.required]],
+        tel1: ['', [Validators.required]],
+        tel2: ['', []],
+        email: ['', [Validators.email]],
+        pec: ['non', [Validators.required]],
+        assurance: ['', []],
+        numAssure: ['', []],
+        numAyantDroit: ['', []],
+        groupSanguin: ['', []],
+        rhesus: ['', []],
+        phenotypHb: ['', []],
+        pathologies: ['Aucune', []],
+        allergies: ['Aucune', []],
+        dateEnreg: [Date.now(), []]
+      }
+    );
+    this.pays = _default.getAllCountries();
+    this.villes = _default.getCitiesOfCountry('TG');
+
+  }
+
+  /**
    * Executed function each time the Identity doctype is changed, to selected the right mask
    * to apply to the identity doc number
    */
@@ -114,30 +112,31 @@ export class NouveauPatientComponent implements OnInit, OnDestroy {
     if (selectedPays === 'Togo') {
       console.log('1 : ' + selectedPays + ' ' + selectedTypeIdentite);
       switch (selectedTypeIdentite) {
-        case this.typeIdentite[0]: {
-          this.selectedMask = this.mask[0];
+        case this.outil.typeIdentite[0]: {
+          this.selectedMask = this.outil.mask[0];
           break;
         }
-        case this.typeIdentite[1]: {
-          this.selectedMask = this.mask[1];
+        case this.outil.typeIdentite[1]: {
+          this.selectedMask = this.outil.mask[1];
           break;
         }
-        case this.typeIdentite[2]: {
-          this.selectedMask = this.mask[2];
+        case this.outil.typeIdentite[2]: {
+          this.selectedMask = this.outil.mask[2];
           break;
         }
-        case this.typeIdentite[3]: {
-          this.selectedMask = this.mask[3];
+        case this.outil.typeIdentite[3]: {
+          this.selectedMask = this.outil.mask[3];
           break;
         }
         default: {
-          this.selectedMask = this.mask[4];
+          this.selectedMask = this.outil.mask[4];
           break;
         }
       }
     } else {
       console.log('2 : ' + selectedPays + ' ' + selectedTypeIdentite);
-      this.selectedMask = this.mask[4];
+      this.selectedMask = this.outil.mask[4];
     }
   }
+
 }

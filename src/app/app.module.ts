@@ -11,6 +11,9 @@ import {NouveauPatientComponent} from './components/nouveau-patient/nouveau-pati
 import {ListPatientsComponent} from './components/list-patients/list-patients.component';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {ModalEditComponent} from './modal-edit/modal-edit.component';
+import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import {outil, outilsInjectionToken} from './utilities/outils';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -19,7 +22,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     AppComponent,
     HomeComponent,
     NouveauPatientComponent,
-    ListPatientsComponent
+    ListPatientsComponent,
+    ModalEditComponent
   ],
   imports: [
     BrowserModule,
@@ -29,10 +33,12 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     MaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    MDBBootstrapModule.forRoot()
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    {provide: outilsInjectionToken, useValue: outil}
   ],
   bootstrap: [AppComponent]
 })
