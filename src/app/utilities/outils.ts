@@ -10,7 +10,7 @@ export const outil = {
     'INAM', 'GRAS SAVOYE', 'SAHAM', 'SUNU', 'FIDELIA', 'GTA', 'PRUDENTIAL', 'LA CITOYENNE'
   ],
   mask: [ // mask type applied to Identity doc number
-    'SS000000', '0 000 00 00 00 00 00', '000 000 000', '0000 000 0000', 'AAAAAAAAAAAAAAA?'
+    '0000 000 0000', 'SS000000', '000 000 000', '0 000 00 00 00 00 00', 'AAAAAAAAAAAAAAA?'
   ],
   groupSanguin: [
     'O', 'A', 'B', 'AB'

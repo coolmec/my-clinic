@@ -2,9 +2,15 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PatientService} from '../../services/patient.service';
 import {Router} from '@angular/router';
-import {Patient} from '../../models/patient';
+import {Patient} from '../../models/patient.model';
 import _default, {ICity, ICountry} from 'country-state-city';
 import {outilsInjectionToken} from '../../utilities/outils';
+import validate = WebAssembly.validate;
+import {NotificationService} from '../../services/notification.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {HttpErrorInterceptorService} from '../../services/http-error-interceptor.service';
+import {Store} from '@ngrx/store';
+import {addPatient} from '../../actions/patient.actions';
 
 @Component({
   selector: 'app-nouveau-patient',
@@ -23,6 +29,9 @@ export class NouveauPatientComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
               private patientService: PatientService,
               private router: Router,
+              private notificationService: NotificationService,
+              private hIS: HttpErrorInterceptorService,
+              private store: Store,
               @Inject(outilsInjectionToken) public outil) {
   }
 
@@ -44,8 +53,7 @@ export class NouveauPatientComponent implements OnInit, OnDestroy {
     this.patientForm.value.dateNaiss = new Date(this.patientForm.value.dateNaiss);
     this.patientForm.value.dateEnreg = new Date(this.patientForm.value.dateEnreg);
     const newPatient: Patient = Object.assign({}, this.patientForm.value);
-    this.patientService.savePatient(newPatient);
-    this.router.navigate(['']);
+    this.store.dispatch(addPatient({ patient: newPatient }));
   }
 
   /**

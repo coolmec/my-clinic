@@ -2,8 +2,8 @@
   <div class="card border-white shadow">
     <div class="card-body">
       <h4 class="d-md-flex justify-content-center card-title">CREATION D&#39;UN COMPTE PATIENT</h4>
-      <p class="d-flex justify-content-center"><small>(  Uniquement pour les nouveaux patients de la clinique !
-        )</small></p>
+      <p class="d-flex justify-content-center">
+        <small>(  Uniquement pour les nouveaux patients de la clinique ! )</small></p>
       <div>
         <form (ngSubmit)="onSubmitForm()" [formGroup]="patientForm">
           <fieldset>
@@ -13,6 +13,7 @@
                 <div class="col-md-3">
                   <div class="form-floating mb-3">
                     <input class="form-control text-uppercase"
+                           oninput="this.value = this.value.toUpperCase()"
                            formControlName="nom"
                            id="nom"
                            placeholder="Nom"
@@ -26,6 +27,7 @@
                 <div class="col-md-3">
                   <div class="form-floating mb-3">
                     <input class="form-control text-uppercase"
+                           oninput="this.value = this.value.toUpperCase()"
                            formControlName="prenom"
                            id="prenom"
                            placeholder="Prénom"
@@ -59,7 +61,7 @@
                              id="formCheck-2"
                              name="sexe"
                              value="M"
-                             ype="radio"/>
+                             type="radio"/>
                       <label class="form-check-label" for="formCheck-2">M</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -99,7 +101,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-floating mb-3">
-                    <input [mask]="selectedMask" class="form-control text-uppercase"
+                    <input [mask]="selectedMask" class="form-control"
                            formControlName="numIdentite"
                            id="numIdentite"
                            placeholder="N° pièce d'identité"
@@ -114,6 +116,7 @@
                   <div class="form-floating mb-3">
                     <input class="form-control text-uppercase"
                            formControlName="nationalite"
+                           oninput="this.value = this.value.toUpperCase()"
                            id="nationalite"
                            placeholder="Nationalité"
                            type="text"/>
@@ -166,7 +169,9 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-floating mb-3">
-                    <input class="form-control text-capitalize" formControlName="quartier"
+                    <input class="form-control text-capitalize"
+                           oninput="this.value = this.value.toUpperCase()"
+                           formControlName="quartier"
                            id="quartier"
                            placeholder="Quartier"
                            type="text"/>
@@ -202,7 +207,7 @@
                     <input [prefix]="selectedCountryPhoneCode" class="form-control"
                            formControlName="tel2"
                            id="tel2"
-                           mask=" 00-00-00-00|| 000-000-000"
+                           mask=" 00-00-00-00"
                            placeholder="Tél. 2"
                            type="tel"/>
                     <label class="form-label">Tél. 2 :</label>
@@ -210,13 +215,17 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-floating mb-3">
-                    <input class="form-control"
+                    <input class="form-control text-lowercase"
+                           oninput="this.value = this.value.toLowerCase()"
                            formControlName="email"
                            id="email"
                            placeholder="Email"
                            type="email"/>
                     <label class="form-label" for="email">Email :</label>
                   </div>
+                  <span *ngIf="patientForm.get('email').hasError('email')" class="text-danger align-bottom">
+                      *Email invalide
+                  </span>
                 </div>
               </div>
             </div>
@@ -287,7 +296,8 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-floating mb-3">
-                    <select class="form-control"
+                    <select class="form-control text-capitalize"
+                            oninput="this.value = this.value.toUpperCase()"
                             formControlName="groupSanguin"
                             id="groupSanguin"
                             placeholder="Groupe sanguin"
@@ -302,7 +312,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-floating mb-3">
-                    <select class="form-control"
+                    <select class="form-control text-capitalize"
                             formControlName="rhesus"
                             id="rhesus"
                             placeholder="Rhésus"
@@ -316,7 +326,8 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-floating mb-3">
-                    <select class="form-control"
+                    <select class="form-control text-capitalize"
+                            oninput="this.value = this.value.toUpperCase()"
                             formControlName="phenotypHb"
                             id="phenotypHb"
                             placeholder="Phénotype Hb"
@@ -334,6 +345,7 @@
                 <div class="col-md-12">
                   <div class="form-floating mb-3">
                     <textarea class="form-control text-lowercase"
+                              oninput="this.value = this.value.toLowerCase()"
                               formControlName="pathologies"
                               id="pathologies"
                               placeholder="Pathologies connues">

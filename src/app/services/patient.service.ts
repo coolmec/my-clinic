@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Patient} from '../models/patient';
-import {Subject} from 'rxjs';
+import {Patient} from '../models/patient.model';
+import {Observable} from 'rxjs';
+import {NotificationService} from './notification.service';
 
 const patientsUrl = 'http://localhost:8000/patients';
 
@@ -10,44 +11,28 @@ const patientsUrl = 'http://localhost:8000/patients';
 })
 export class PatientService {
 
-  public patientsSubject = new Subject<Patient[]>();
-  private listPatients: Patient[];
-
   constructor(private http: HttpClient) {
   }
 
-  emitPatientSubject(): void {
-    this.patientsSubject.next(this.listPatients.slice());
+  // Method to create a new patient
+  savePatient(patient: Patient): Observable<Patient> {
+    return this.http.post<Patient>(patientsUrl, patient);
   }
 
-  savePatient(patient: Patient): void {
-    this.http.post(patientsUrl, patient).subscribe(
-      () => {
-        console.log('success ');
-      },
-      (error) => {
-        console.log('Erreur ' + error);
-      }
-    );
-    this.getPatient();
+  // Method to retrieve all registered patients from database
+  getPatients(): Observable<Patient[]> {
+    return this.http.get<Patient[]>(patientsUrl);
   }
 
-  getListePatient(): Patient[] {
-    return this.listPatients;
+  // Method to update a patient
+  updatePatient(patient: Patient): Observable<Patient> {
+    return this.http.put<Patient>(patientsUrl, patient);
   }
 
-  getPatient(): void {
-    this.http.get<Patient[]>(patientsUrl).subscribe(
-      value => {
-        this.listPatients = value;
-      },
-      error => {
-        console.log(error);
-      },
-      () => {
-        console.log('Liste des patients récupérée avec succès.');
-      }
-    );
+  // Method to delete a patient}
+  deletePatient(patient: Patient): Observable<Patient> {
+    return this.http.delete<Patient>(patientsUrl,
+      {observe: 'body', responseType: 'json', body: patient});
   }
 
 }

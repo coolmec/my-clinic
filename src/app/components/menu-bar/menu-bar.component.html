@@ -1,0 +1,48 @@
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">MyClinic</a>
+    <button class="navbar-toggler" data-bs-target="#navcol-1" data-bs-toggle="collapse"><span class="visually-hidden">Toggle navigation</span><span
+      class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+      <ul class="navbar-nav navbar-nav-scroll me-auto">
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">Operations</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Nouvelle consultation</a>
+            <a class="dropdown-item" href="#">Nouvelle analyse</a>
+            <a class="dropdown-item" href="#">Nouveau soin</a>
+            <a class="dropdown-item text-truncate" href="#">Nouvelle hospitalisation</a>
+            <a class="dropdown-item" href="#">Nouvelle facture</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">Base de
+            données</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" routerLink="list-patients" routerLinkActive="active">Clients / Patients</a>
+            <a class="dropdown-item" routerLink="consultation-patient" routerLinkActive="active">Visites de consultations</a>
+            <a class="dropdown-item" href="#">Analyses</a>
+            <a class="dropdown-item" href="#">Hospitalisations</a>
+            <a class="dropdown-item" href="#">Soins</a>
+            <a class="dropdown-item" href="#">Factures</a>
+            <a class="dropdown-item" routerLink="consultations" routerLinkActive="active">Consultations</a>
+          </div>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#">Paramètres</a></li>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" class="dropdown-toggle nav-link" data-bs-toggle="dropdown" href="#">Aide</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Guide d'utlisation</a>
+            <a class="dropdown-item" href="#">Bien démarrer</a>
+            <a class="dropdown-item" href="#">Mises à jours</a>
+            <a class="dropdown-item" href="#">A propos</a>
+          </div>
+        </li>
+      </ul>
+      <span class="navbar-text actions">
+        <a class="login" href="#">Connexion</a>
+        <a class="btn btn-light action-button" href="#" role="button">S'enregistrer</a>
+      </span>
+    </div>
+  </div>
+</nav>

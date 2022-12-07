@@ -1,0 +1,71 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
+      <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title w-100" id="myModalLabel">Ajouter une nouvelle consultation</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <!--<div class="md-form">
+        <input class="form-control grey-text" formControlName="id" id="id" mdbInput type="text">
+        <label for="id">ID</label>
+      </div>-->
+      <div class="md-form">
+        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="codeCons" id="code"
+               type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Code de la consultation">
+        <label for="code">Code consultation</label>
+        <mdb-error *ngIf="codeCons.invalid && (codeCons.dirty || codeCons.touched)">*Champ obligatoire</mdb-error>
+      </div>
+      <div class="md-form">
+        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="designation" id="designation"
+               type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Designation">
+        <label for="designation">Nom</label>
+        <mdb-error *ngIf="designation.invalid && (designation.dirty || designation.touched)">*Champ obligatoire</mdb-error>
+      </div>
+      <div class="form-floating">
+        <select mdbInput mdbValidate [validateSuccess]="false" class=" browser-default custom-select form-control" formControlName="type" id="type"
+               placeholder="Type de consultation">
+          <option value="" selected disabled>Type de consultation</option>
+          <option value="GENERALE">GENERALE</option>
+          <option value="SPECIALISEE">SPECIALISEE</option>
+        </select>
+        <label for="type">Type</label>
+        <mdb-error *ngIf="type.invalid && (type.dirty || type.touched)">*Champ obligatoire</mdb-error>
+      </div>
+      <div class="md-form">
+        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="tarifNor" id="tarifNor"
+               type="number" placeholder="Tarif Normal">
+        <label for="tarifNor">Tarif Normal</label>
+        <mdb-error *ngIf="tarifNor.invalid && (tarifNor.dirty || tarifNor.touched)">*Champ obligatoire</mdb-error>
+      </div>
+      <div class="md-form">
+        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="tarifAss" id="tarifAss"
+               type="number" placeholder="Tarif Assuré">
+        <label for="tarifAss">Tél. 2</label>
+        <mdb-error *ngIf="tarifAss.invalid && (tarifAss.dirty || tarifAss.touched)">*Champ obligatoire</mdb-error>
+      </div>
+      <div class="form-floating">
+        <textarea mdbValidate [validateSuccess]="false" class="form-control" formControlName="description" id="description"
+               type="text" placeholder="Description">Description
+        </textarea>
+        <label class="form-label" for="description">Description</label>
+        <mdb-error *ngIf="description.invalid &&  (description.dirty || description.touched)">*Champ obligatoire</mdb-error>
+      </div>
+      <div class="md-form">
+        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="dureeValidite" id="dureeValidite"
+               type="number" placeholder="Durée de validité en nombre de jours">
+        <label for="dureeValidite">Durée de validité</label>
+        <mdb-error *ngIf="dureeValidite.invalid && dureeValidite.dirty">*Champ obligatoire</mdb-error>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button (click)="modalRef.hide()" aria-label="Close" class="waves-light" color="secondary" mdbBtn
+            mdbWavesEffect type="button">Fermer
+    </button>
+    <button (click)="editRow()" [disabled]="form.invalid" class="relative waves-light" color="primary" mdbBtn
+            mdbWavesEffect type="button">Sauvegarder
+    </button>
+  </div>
+</div>

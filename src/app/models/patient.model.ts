@@ -1,4 +1,4 @@
-import {Client} from './client';
+import {Client} from './client.model';
 
 export interface Patient extends Client {
   dateConvPatient?: Date;

@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="card border-white shadow">
+    <div class="card-body">
+      <h4 class="d-md-flex justify-content-center card-title">ENREGISTREMENT D'UNE VISITE DE CONSULTATION</h4>
+      <p class="d-flex justify-content-center">
+        <small>(  Uniquement pour les patients de la clinique ! )</small></p>
+      <div>
+        <form (ngSubmit)="onSubmit(cPForm)" #cPForm="ngForm">
+          <fieldset>
+            <legend>Identité</legend>
+            <div class="form-group mb-3">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-floating mb-3">
+                    <input class="form-control text-uppercase"
+                           list="patientList"
+                           name="idPatient"
+                           id="idPatient"
+                           placeholder="Identité du patient"
+                           type="text"
+                           ngModel
+                    >
+                    <datalist id="patientList">
+                      <option *ngFor="let patient of listPatient$ | async ; let i = index"
+                              [value]="patient.nom + ' ' + patient.prenom">
+                      </option>
+                    </datalist>
+                    <label class="form-label" for="idPatient">Patient :</label>
+                    <!--<span *ngIf="consultPatientForm.get('idPatient').hasError('required')" class="text-danger">
+                      *Champ obligatoire
+                    </span>-->
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-floating mb-3">
+                    <input class="form-control text-uppercase"
+                           list="consultList"
+                           name="idConsult"
+                           id="idConsult"
+                           placeholder="Consultation"
+                           type="text"
+                           ngModel
+                    />
+                    <datalist id="consultList">
+                      <option *ngFor="let cons of listConsult$ | async; let i = index"
+                              [value]="cons.designation">
+                      </option>
+                    </datalist>
+                    <label class="form-label" for="idPatient">Consultation :</label>
+                    <!--<span *ngIf="consultPatientForm.get('idConsult').hasError('required')" class="text-danger">
+                      *Champ obligatoire
+                    </span>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-secondary rounded-pill" style="margin-left: 0px;margin-right: 10px;">Annuler</button>
+            <button [disabled]="cPForm.invalid" class="btn btn-secondary rounded-pill" style="margin-left: 10px;"
+                    type="Submit">Valider
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,12 @@
 <div class="container">
   <div class="card border-white shadow">
     <div class="card-body">
-      <h4 class="d-md-flex justify-content-center card-title">LISTE DES PATIENTS ENREGISTRES</h4>
+      <h4 class="d-md-flex justify-content-center card-title">LISTE DES CONSULTATIONS PRIS EN CHARGE</h4>
       <p class="d-md-flex justify-content-center">
-        <small>( Uniquement pour les nouveaux patients de la clinique ! )</small></p>
+        <small>( Uniquement pour les Administrateurs ! )</small></p>
       <div>
+        <button (click)="createConsultation()" color="primary" mdbBtn mdbWavesEffect size="sm">Nouveau</button>
+        <div class="row"></div>
         <div class="row">
           <table mdbTable #tableEl="mdbTable" class="z-depth-5" hover="true" stickyHeader="" striped="true">
             <thead class="">
@@ -18,22 +20,22 @@
             <tbody #row>
             <tr *ngFor="let el of elements | async ; let i = index">
               <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"
-                  scope="row">{{el.id}}
+                  scope="row">{{el.codeCons}}
               </th>
               <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.nom}}
+                {{el.designation}}
               </td>
               <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.prenom
-                }}
-              </td><td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.tel1}}
+                {{el.type}}
               </td>
               <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.tel2}}
+                {{el.tarifNor}}
               </td>
               <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.email}}
+                {{el.tarifAss}}
+              </td>
+              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                {{el.dureeValidite}}
               </td>
               <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
                 <button (click)="editRow(el)" color="warning" mdbBtn mdbWavesEffect size="sm">Modifier</button>
