@@ -1,6 +1,6 @@
 import {ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer} from '@ngrx/store';
 import {environment} from '../../environments/environment';
-import {patientReducer, PatientState, selectAllPatients} from './patient.reducer';
+import {patientReducer, PatientState, selectAllPatients, selectPatientTotal} from './patient.reducer';
 import {consultationReducer, ConsultationState, selectAllConsultations} from './consultation.reducer';
 import {consultationPatientReducer, ConsultationPatientState, selectAllConsultationPatients} from './consultation-patient.reducer';
 
@@ -24,6 +24,8 @@ export const selectPatientFeatureState = createFeatureSelector<PatientState>(pat
 export const selectConsultationFeatureState = createFeatureSelector<ConsultationState>(consultationFeatureStateKey);
 export const selectConsultationPatientFeatureState = createFeatureSelector<ConsultationPatientState>(consultationPatientFeatureStateKey);
 
+export const selectPatientsTotalFeatureState = createSelector(
+  selectPatientFeatureState, selectPatientTotal);
 export const selectPatientsListFeatureState = createSelector(
   selectPatientFeatureState, selectAllPatients);
 export const selectConsultationsListFeatureState = createSelector(

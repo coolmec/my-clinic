@@ -31,6 +31,10 @@ import { NouvelleConsultationComponent } from './components/nouvelle-consultatio
 import { ConsultationPatientEffects } from './effects/consultation-patient.effects';
 import { ConsultationPatientComponent } from './components/consultation-patient/consultation-patient.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+
+
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
@@ -60,7 +64,9 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PatientEffects, ConsultationEffects]),
-    EffectsModule.forFeature([ConsultationPatientEffects])
+    EffectsModule.forFeature([ConsultationPatientEffects]),    
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},

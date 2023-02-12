@@ -11,6 +11,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {HttpErrorInterceptorService} from '../../services/http-error-interceptor.service';
 import {Store} from '@ngrx/store';
 import {addPatient} from '../../actions/patient.actions';
+import { take, tap } from 'rxjs/operators';
+import { selectPatientsTotalFeatureState } from 'src/app/reducers';
 
 @Component({
   selector: 'app-nouveau-patient',
@@ -52,6 +54,9 @@ export class NouveauPatientComponent implements OnInit, OnDestroy {
   onSubmitForm(): void {
     this.patientForm.value.dateNaiss = new Date(this.patientForm.value.dateNaiss);
     this.patientForm.value.dateEnreg = new Date(this.patientForm.value.dateEnreg);
+    this.store.select(selectPatientsTotalFeatureState)
+      .pipe(take(1),tap(number => this.patientForm.value.id = number+1))
+        .subscribe();
     const newPatient: Patient = Object.assign({}, this.patientForm.value);
     this.store.dispatch(addPatient({ patient: newPatient }));
   }
@@ -118,7 +123,6 @@ export class NouveauPatientComponent implements OnInit, OnDestroy {
     const selectedTypeIdentite: string = this.patientForm.value.typeIdentite;
     const selectedPays: string = this.patientForm.value.pays;
     if (selectedPays === 'Togo') {
-      console.log('1 : ' + selectedPays + ' ' + selectedTypeIdentite);
       switch (selectedTypeIdentite) {
         case this.outil.typeIdentite[0]: {
           this.selectedMask = this.outil.mask[0];
