@@ -12,19 +12,22 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-floating mb-3">
-                    <input class="form-control text-uppercase"
-                           list="patientList"
-                           name="idPatient"
-                           id="idPatient"
-                           placeholder="Identité du patient"
-                           type="text"
-                           ngModel
+                    <select 
+                    class="form-control text-uppercase"
+                    list="patientList"
+                    name="idPatient"
+                    id="idPatient"
+                    placeholder="Identité du patient"
+                    type="text"
+                    ngModel
                     >
-                    <datalist id="patientList">
+                    <optgroup label="Liste des patients">
                       <option *ngFor="let patient of listPatient$ | async ; let i = index"
-                              [value]="patient.nom + ' ' + patient.prenom">
+                      [value]="patient.nom + ' ' + patient.prenom">
+                      {{patient.nom + ' ' + patient.prenom}}
                       </option>
-                    </datalist>
+                    </optgroup>
+                    </select> 
                     <label class="form-label" for="idPatient">Patient :</label>
                     <!--<span *ngIf="consultPatientForm.get('idPatient').hasError('required')" class="text-danger">
                       *Champ obligatoire

@@ -6,6 +6,45 @@
         <small>( Uniquement pour les nouveaux patients de la clinique ! )</small></p>
       <div>
         <div class="row">
+          <div class="col-md-4 mx-auto">
+            <div class="md-form">
+              <input
+                type="text"
+                [(ngModel)]="nameSearch"
+                class="form-control"
+                id="nameSearch"
+                oninput="this.value = this.value.toUpperCase()"
+                mdbInput
+              />
+              <label for="nameSearch">Recherche par Nom</label>
+            </div>
+          </div>
+          <div class="col-md-4 mx-auto">
+            <div class="md-form">
+              <input
+                type="text"
+                [(ngModel)]="surnameSearch"
+                class="form-control"
+                id="surnameSearch"
+                oninput="this.value = this.value.toUpperCase()"
+                mdbInput
+              />
+              <label for="surnameSearch">Recherche par Prenom</label>
+            </div>
+          </div>
+          <div class="col-md-4 mx-auto">
+            <div class="md-form">
+              <input
+                type="text"
+                [(ngModel)]="telSearch"
+                class="form-control"
+                id="telSearch"
+                oninput="this.value = this.value.toUpperCase()"
+                mdbInput
+              />
+              <label for="telSearch">Recherche par Telephone</label>
+            </div>
+          </div>
           <table mdbTable #tableEl="mdbTable" class="z-depth-5" hover="true" stickyHeader="" striped="true">
             <thead class="">
             <tr>
