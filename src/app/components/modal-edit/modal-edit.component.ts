@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MDBModalRef} from 'angular-bootstrap-md';
 import {Patient} from '../../models/patient.model';
 
@@ -14,13 +14,13 @@ export class ModalEditComponent implements OnInit {
   public editableRow: Patient;
   public saveButtonClicked: Subject<Patient> = new Subject<Patient>();
 
-  public form: FormGroup = new FormGroup({
-    id: new FormControl({value: '', disabled: true}),
-    nom: new FormControl('', Validators.required),
-    prenom: new FormControl('', Validators.required),
-    tel1: new FormControl('', Validators.required),
-    tel2: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.email)
+  public form: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl({value: '', disabled: true}),
+    nom: new UntypedFormControl('', Validators.required),
+    prenom: new UntypedFormControl('', Validators.required),
+    tel1: new UntypedFormControl('', Validators.required),
+    tel2: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl('', Validators.email)
   });
 
   constructor(public modalRef: MDBModalRef) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from 'rxjs';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {MDBModalRef} from 'angular-bootstrap-md';
 import {Consultation} from '../../models/consultation.model';
 
@@ -14,15 +14,15 @@ export class NouvelleConsultationComponent implements OnInit {
   public editableRow: Consultation;
   public saveButtonClicked: Subject<Consultation> = new Subject<Consultation>();
 
-  public form: FormGroup = new FormGroup({
+  public form: UntypedFormGroup = new UntypedFormGroup({
     // id: new FormControl({value: '', disabled: true}),
-    codeCons: new FormControl('', Validators.required),
-    designation: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    type: new FormControl('', Validators.required),
-    tarifNor: new FormControl('', Validators.required),
-    tarifAss: new FormControl(''),
-    dureeValidite: new FormControl('')
+    codeCons: new UntypedFormControl('', Validators.required),
+    designation: new UntypedFormControl('', Validators.required),
+    description: new UntypedFormControl('', Validators.required),
+    type: new UntypedFormControl('', Validators.required),
+    tarifNor: new UntypedFormControl('', Validators.required),
+    tarifAss: new UntypedFormControl(''),
+    dureeValidite: new UntypedFormControl('')
   });
 
   constructor(public modalRef: MDBModalRef) {

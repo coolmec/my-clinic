@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {PatientService} from '../../services/patient.service';
 import {Router} from '@angular/router';
 import {Patient} from '../../models/patient.model';
@@ -21,14 +21,14 @@ import { selectPatientsTotalFeatureState } from 'src/app/reducers';
 })
 export class NouveauPatientComponent implements OnInit, OnDestroy {
 
-  patientForm!: FormGroup; // FormGroup variable declaration
+  patientForm!: UntypedFormGroup; // FormGroup variable declaration
   pays: ICountry[];
   villes: ICity[];
   selectedCountryPhoneCode = this.outil.selectedCountryPhoneCode;
   localPhoneCode = this.outil.localPhoneCode;
   selectedMask: string;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private patientService: PatientService,
               private router: Router,
               private notificationService: NotificationService,
