@@ -9,7 +9,7 @@
 /bazel-out
 
 # angular
-./angular
+.angular
 
 # dependencies
 /node_modules
