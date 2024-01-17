@@ -31,8 +31,8 @@ import { NouvelleConsultationComponent } from './components/nouvelle-consultatio
 import { ConsultationPatientEffects } from './effects/consultation-patient.effects';
 import { ConsultationPatientComponent } from './components/consultation-patient/consultation-patient.component';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;

@@ -4,7 +4,7 @@ import {Patient} from '../models/patient.model';
 import {Observable} from 'rxjs';
 import {NotificationService} from './notification.service';
 
-import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
+import {AngularFireDatabase, AngularFireList} from '@angular/fire/compat/database';
 import { filter, tap, map, take } from 'rxjs/operators';
 
 const patientsUrl = 'http://localhost:8000/patients';
