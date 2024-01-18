@@ -42,6 +42,7 @@
     "ngx-toastr": "^16.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "Typescript": "npm:typescript@^4.9.5",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
