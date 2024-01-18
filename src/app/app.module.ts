@@ -10,7 +10,7 @@ import {HomeComponent} from './components/home/home.component';
 import {NouveauPatientComponent} from './components/nouveau-patient/nouveau-patient.component';
 import {ListPatientsComponent} from './components/list-patients/list-patients.component';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/legacy-form-field';
 import {ModalEditComponent} from './components/modal-edit/modal-edit.component';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {outil, outilsInjectionToken} from './utilities/outils';
