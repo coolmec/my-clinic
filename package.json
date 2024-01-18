@@ -30,7 +30,6 @@
     "@ngrx/store-devtools": "^15.4.0",
     "@popperjs/core": "^2.6.0",
     "@types/chart.js": "^2.9.34",
-    "angular-bootstrap-md": "^15.0.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.0.0-beta3",
     "chart.js": "^2.5.0",
