@@ -1,129 +1,109 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MDBModalRef, MDBModalService, MdbTableDirective, MdbTablePaginationComponent} from 'angular-bootstrap-md';
-import {ModalEditComponent} from '../modal-edit/modal-edit.component';
-import {Store} from '@ngrx/store';
-import {deletePatient, loadPatients, upsertPatient} from '../../actions/patient.actions';
-import {Observable, of} from 'rxjs';
-import {Patient} from '../../models/patient.model';
-import {ModalConfirmationComponent} from '../modal-confirmation/modal-confirmation.component';
-import {selectPatientsListFeatureState} from '../../reducers';
-import { selectAllPatients } from 'src/app/reducers/patient.reducer';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { deletePatient, loadPatients, upsertPatient } from '../../actions/patient.actions';
+import { Patient } from '../../models/patient.model';
+import { selectPatientsListFeatureState } from '../../reducers';
+import { ModalConfirmationComponent } from '../modal-confirmation/modal-confirmation.component';
+import { ModalEditComponent } from '../modal-edit/modal-edit.component';
+import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
   templateUrl: './list-patients.component.html',
-  styleUrls: ['./list-patients.component.scss']
+  styleUrls: ['./list-patients.component.scss'],
+  providers: [NgbPaginationConfig]
 })
 export class ListPatientsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(MdbTableDirective, {static: true}) mdbTable: MdbTableDirective;
-  @ViewChild(MdbTablePaginationComponent, {static: true}) mdbTablePagination: MdbTablePaginationComponent;
-  @ViewChild('row', {static: true}) row: ElementRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
 
-  elements: Observable<Patient []>; // This will be used as observable of the arraylist of patients
+  elements: Observable<Patient[]>; // This will be used as an observable of the arraylist of patients
   headElements = ['Id', 'Nom', 'Prénom', 'Tél. 1', 'Tél. 2', 'E-mail', 'Opération']; // Datatable header titles
   nameSearch: string = '';
   surnameSearch: string = '';
   telSearch: string = '';
   previous: string;
-  modalRef: MDBModalRef;
+  modalRef: NgbModalRef;
 
   constructor(
     private cdRef: ChangeDetectorRef,
-    private modalService: MDBModalService,
-    private store: Store) {
-  }
+    private modalService: NgbModal,
+    private store: Store,
+    tableEl: NgbPaginationConfig 
+  ) {
+        // Configure NgbPagination
+        tableEl.pageSize = 10; // Set your desired page size
+        tableEl.boundaryLinks = true;
+   }
 
   @HostListener('input') oninput() {
     this.searchItems();
   }
 
   ngOnInit(): void {
-    // Connection to the store, to get list of registered patients
+    // Connection to the store, to get the list of registered patients
     this.store.dispatch(loadPatients());
     // Selection of the downloaded list of registered patients from the store state
     this.elements = this.store.select(selectPatientsListFeatureState);
     // Feeding of the table with the data source
-    this.mdbTable.setDataSource(this.elements);
-    this.previous = this.mdbTable.getDataSource();    
+    this.previous = this.elements.toString();
   }
 
   ngAfterViewInit(): void {
-    this.mdbTablePagination.setMaxVisibleItemsNumberTo(10);
-
-    this.mdbTablePagination.calculateFirstItemIndex();
-    this.mdbTablePagination.calculateLastItemIndex();
     this.cdRef.detectChanges();
   }
 
+  open(content) {
+    this.modalService.open(content, { scrollable: true });
+  }
+
   editRow(el: Patient): void {
-    const modalOptions = {
-      scroll: true,
-      data: {
-        editableRow: el
-      }
+    const modalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      centered: true,
+      windowClass: 'modal-edit',
     };
-    this.modalRef = this.modalService.show(ModalEditComponent, modalOptions);
-    this.modalRef.content.saveButtonClicked.subscribe(
+    this.modalRef = this.modalService.open(ModalEditComponent, modalOptions);
+    this.modalRef.componentInstance.editableRow = el;
+    this.modalRef.result.then(
       (updatedPatient: Patient) => {
-        this.store.dispatch(upsertPatient({patient: updatedPatient}));
+        this.store.dispatch(upsertPatient({ patient: updatedPatient }));
       }
     );
   }
 
   removeRow(el: Patient): void {
-    this.modalRef = this.modalService.show(ModalConfirmationComponent);
-    this.modalRef.content.deleteButtonClicked.subscribe(
+    this.modalRef = this.modalService.open(ModalConfirmationComponent);
+    this.modalRef.result.then(
       () => {
-        this.store.dispatch(deletePatient({patient: el}));
+        this.store.dispatch(deletePatient({ patient: el }));
       }
     );
   }
 
-  searchItems() {
-    const prev = this.mdbTable.getDataSource();
-    if(this.nameSearch==''&&this.surnameSearch==''&&this.telSearch=='') {
-      this.mdbTable.setDataSource(this.previous);
-      this.elements = this.mdbTable.getDataSource();
-    }
-    else {
-      this.elements = this.elements.pipe(
-        map(data => data.filter(value => this.recherche(value, this.nameSearch, this.surnameSearch, this.telSearch)))
-      );
-     this.mdbTable.setDataSource(prev);
-    }
+  searchItems() {    
+    this.elements = this.store.select(selectPatientsListFeatureState).pipe(
+      map(data => data.filter(value => this.recherche(value, this.nameSearch, this.surnameSearch, this.telSearch)))
+    );
   }
 
-  recherche(data: Patient, nom:string, prenom: string, tel:string): boolean {
-    if(nom.trim()==''){
-      if(prenom.trim()==''){
-        if(tel){
-          return (data.tel1.includes(tel)||data.tel2.includes(tel))
-        }
-      }
-      else {
-        if(tel){
-          return data.prenom.includes(prenom)&&(data.tel1.includes(tel)||data.tel2.includes(tel))
-        }
-        else {
-          return data.prenom.includes(prenom)
-        }
-      }
+  recherche(data: Patient, nom: string, prenom: string, tel: string): boolean {
+    const trimmedNom = nom.trim();
+    const trimmedPrenom = prenom.trim();
+    const trimmedTel = tel.trim();
+
+    if (trimmedNom === '' && trimmedPrenom === '' && trimmedTel === '') {
+      return true;
     }
-    else {
-      if(prenom){
-        if(tel){
-          return data.nom.includes(nom)&&data.prenom.includes(prenom)&&
-          (data.tel1.includes(tel)||data.tel2.includes(tel))
-        }
-        else {
-          return data.nom.includes(nom)&&data.prenom.includes(prenom)
-        }
-      }
-      else {
-        return data.nom.includes(nom)
-      }
-    }    
+
+    const isNomMatch = trimmedNom === '' || data.nom.includes(trimmedNom);
+    const isPrenomMatch = trimmedPrenom === '' || data.prenom.includes(trimmedPrenom);
+    const isTelMatch = trimmedTel === '' || data.tel1.includes(trimmedTel) || data.tel2.includes(trimmedTel);
+
+    return isNomMatch && isPrenomMatch && isTelMatch;
   }
 
   ngOnDestroy(): void {

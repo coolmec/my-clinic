@@ -1,93 +1,83 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MDBModalRef, MDBModalService, MdbTableDirective, MdbTablePaginationComponent} from 'angular-bootstrap-md';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {selectConsultationsListFeatureState} from '../../reducers';
-import {ModalConfirmationComponent} from '../modal-confirmation/modal-confirmation.component';
-import {addConsultation, deleteConsultation, loadConsultations, upsertConsultation} from '../../actions/consultation.actions';
-import {Consultation} from '../../models/consultation.model';
-import {NouvelleConsultationComponent} from '../nouvelle-consultation/nouvelle-consultation.component';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { NgbModal, NgbModalOptions, NgbModalRef, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModal and NgbModalRef
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { addConsultation, deleteConsultation, loadConsultations, upsertConsultation } from '../../actions/consultation.actions';
+import { Consultation } from '../../models/consultation.model';
+import { selectConsultationsListFeatureState } from '../../reducers';
+import { ModalConfirmationComponent } from '../modal-confirmation/modal-confirmation.component';
+import { NouvelleConsultationComponent } from '../nouvelle-consultation/nouvelle-consultation.component';
 
 @Component({
   selector: 'app-consultations',
   templateUrl: './consultations.component.html',
-  styleUrls: ['./consultations.component.scss']
+  styleUrls: ['./consultations.component.scss'],
+  providers: [NgbPaginationConfig]
 })
 export class ConsultationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(MdbTableDirective, {static: true}) mdbTable: MdbTableDirective;
-  @ViewChild(MdbTablePaginationComponent, {static: true}) mdbTablePagination: MdbTablePaginationComponent;
-  @ViewChild('row', {static: true}) row: ElementRef;
+  elements: Observable<Consultation[]>;
+  headElements = ['Code', 'Designation', 'Type', 'TarifNormal', 'TarifAss.', 'Validité', 'Opération'];
+  modalRef: NgbModalRef; // Change to NgbModalRef
 
-  elements: Observable<Consultation []>; // This will be used as observable of the arraylist of patients
-  headElements = ['Code', 'Designation', 'Type', 'TarifNormal', 'TarifAss.', 'Validité', 'Opération']; // Datatable header titles
-  modalRef: MDBModalRef;
+  currentPage = 1;
+  itemsPerPage = 5;
+  maxSize = 5;
+  rotate = false;
+  ellipses = true;
+  boundaryLinks = true;
 
   constructor(
     private cdRef: ChangeDetectorRef,
-    private modalService: MDBModalService,
-    private store: Store) {
-  }
+    private modalService: NgbModal, // Change to NgbModal
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
-    // Connection to the store, to get list of registered patients
     this.store.dispatch(loadConsultations());
-    // Selection of the downloaded list of registered patients from the store state
     this.elements = this.store.select(selectConsultationsListFeatureState);
-    // Feeding of the table with the data source
-    this.mdbTable.setDataSource(this.elements);
-    this.elements.forEach(
-      value => console.log(value)
-    );
   }
 
   ngAfterViewInit(): void {
-    this.mdbTablePagination.setMaxVisibleItemsNumberTo(10);
-
-    this.mdbTablePagination.calculateFirstItemIndex();
-    this.mdbTablePagination.calculateLastItemIndex();
     this.cdRef.detectChanges();
   }
 
   editRow(el: Consultation): void {
-    const modalOptions = {
-      scroll: true,
-      data: {
-        editableRow: el
-      }
+    const modalOptions: NgbModalOptions = {
+      scrollable: true,
+      backdrop: 'static',
+      keyboard: false
     };
-    this.modalRef = this.modalService.show(NouvelleConsultationComponent, modalOptions);
-    const content = this.modalRef.content as NouvelleConsultationComponent;
-    content.saveButtonClicked.subscribe(
-      (updatedConsultation: Consultation) => {
-        this.store.dispatch(upsertConsultation({consultation: updatedConsultation}));
-      }
-    );
+    this.modalRef = this.modalService.open(NouvelleConsultationComponent, modalOptions);
+    const content = this.modalRef.componentInstance as NouvelleConsultationComponent;
+    content.editableRow = el;
+    content.saveButtonClicked.subscribe((updatedConsultation: Consultation) => {
+      this.store.dispatch(upsertConsultation({ consultation: updatedConsultation }));
+      this.modalRef.close();
+    });
   }
 
   removeRow(el: Consultation): void {
-    this.modalRef = this.modalService.show(ModalConfirmationComponent);
-    this.modalRef.content.deleteButtonClicked.subscribe(
-      () => {
-        this.store.dispatch(deleteConsultation({consultation: el}));
-      }
-    );
+    this.modalRef = this.modalService.open(ModalConfirmationComponent);
+    const content = this.modalRef.componentInstance as ModalConfirmationComponent;
+    content.deleteButtonClicked.subscribe(() => {
+      this.store.dispatch(deleteConsultation({ consultation: el }));
+      this.modalRef.close();
+    });
   }
 
   createConsultation(): void {
-    const modalOptions = {
-      scroll: true,
-      data: {
-      }
+    const modalOptions: NgbModalOptions = {
+      scrollable: true,
+      backdrop: 'static',
+      keyboard: false
     };
-    this.modalRef = this.modalService.show(NouvelleConsultationComponent, modalOptions);
-    const content = this.modalRef.content as NouvelleConsultationComponent;
-    content.saveButtonClicked.subscribe(
-      (newConsultation: Consultation) => {
-        this.store.dispatch(addConsultation({consultation: newConsultation}));
-      }
-    );
+    this.modalRef = this.modalService.open(NouvelleConsultationComponent, modalOptions);
+    const content = this.modalRef.componentInstance as NouvelleConsultationComponent;
+    content.saveButtonClicked.subscribe((newConsultation: Consultation) => {
+      this.store.dispatch(addConsultation({ consultation: newConsultation }));
+      this.modalRef.close();
+    });
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

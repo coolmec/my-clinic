@@ -1,6 +1,6 @@
 <div class="modal-content">
   <div class="modal-header">
-    <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
+    <button (click)="modalRef.close()" aria-label="Close" class="close pull-right" type="button">
       <span aria-hidden="true">×</span>
     </button>
     <h4 class="modal-title w-100" id="myModalLabel">{{title}}</h4>
@@ -9,11 +9,7 @@
     <span>Voulez-vous vraiment supprimer ce patient ?</span>
   </div>
   <div class="modal-footer">
-    <button (click)="modalRef.hide()" aria-label="Close" class="waves-light" color="secondary" mdbBtn
-            mdbWavesEffect type="button">NO
-    </button>
-    <button (click)="deletePatient()" class="relative waves-light" color="primary" mdbBtn
-            mdbWavesEffect type="button">YES
-    </button>
+    <button (click)="modalRef.close()" aria-label="Close" class="waves-light btn-secondary" type="button">NO</button>
+    <button (click)="deletePatient()" class="relative waves-light btn-primary" type="button">YES</button>
   </div>
 </div>

@@ -1,54 +1,45 @@
 <div class="modal-content">
   <div class="modal-header">
-    <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
+    <button (click)="modalRef.close()" aria-label="Close" class="close pull-right" type="button">
       <span aria-hidden="true">×</span>
     </button>
     <h4 class="modal-title w-100" id="myModalLabel">Modifier : {{editableRow.nom}}</h4>
   </div>
   <div class="modal-body">
     <form [formGroup]="form">
-      <div class="md-form">
-        <input class="form-control grey-text" formControlName="id" id="id" mdbInput type="text">
+      <div class="form-group">
         <label for="id">ID</label>
+        <input class="form-control grey-text" formControlName="id" id="id" type="text">
       </div>
-      <div class="md-form">
-        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="nom" id="nom"
-               type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Nom">
+      <div class="form-group">
         <label for="nom">Nom</label>
-        <mdb-error *ngIf="nom.invalid && (nom.dirty || nom.touched)">*Champ obligatoire</mdb-error>
+        <input class="form-control" formControlName="nom" id="nom" type="text" (input)="form.controls['nom'].setValue(form.controls['nom'].value.toUpperCase())" placeholder="Nom">
+        <div *ngIf="form.controls['nom'].invalid && (form.controls['nom'].dirty || form.controls['nom'].touched)" class="text-danger">*Champ obligatoire</div>
       </div>
-      <div class="md-form">
-        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="prenom" id="prenom"
-               type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Prenom">
+      <div class="form-group">
         <label for="prenom">Prénom</label>
-        <mdb-error *ngIf="prenom.invalid && (prenom.dirty || prenom.touched)">*Champ obligatoire</mdb-error>
+        <input class="form-control" formControlName="prenom" id="prenom" type="text" (input)="form.controls['prenom'].setValue(form.controls['prenom'].value.toUpperCase())" placeholder="Prénom">
+        <div *ngIf="form.controls['prenom'].invalid && (form.controls['prenom'].dirty || form.controls['prenom'].touched)" class="text-danger">*Champ obligatoire</div>
       </div>
-      <div class="md-form">
-        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="tel1" id="tel1"
-               type="tel" mask=" 00-00-00-00" placeholder="Tél. 1">
+      <div class="form-group">
         <label for="tel1">Tél. 1</label>
-        <mdb-error *ngIf="tel1.invalid && (tel1.dirty || tel1.touched)">*Champ obligatoire</mdb-error>
+        <input class="form-control" formControlName="tel1" id="tel1" type="tel" placeholder="Tél. 1">
+        <div *ngIf="form.controls['tel1'].invalid && (form.controls['tel1'].dirty || form.controls['tel1'].touched)" class="text-danger">*Champ obligatoire</div>
       </div>
-      <div class="md-form">
-        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="tel2" id="tel2"
-               type="tel" mask=" 00-00-00-00" placeholder="Tél. 2">
+      <div class="form-group">
         <label for="tel2">Tél. 2</label>
-        <mdb-error *ngIf="tel2.invalid && (tel2.dirty || tel2.touched)">*Champ obligatoire</mdb-error>
+        <input class="form-control" formControlName="tel2" id="tel2" type="tel" placeholder="Tél. 2">
+        <div *ngIf="form.controls['tel2'].invalid && (form.controls['tel2'].dirty || form.controls['tel2'].touched)" class="text-danger">*Champ obligatoire</div>
       </div>
-      <div class="md-form">
-        <input mdbInput mdbValidate [validateSuccess]="false" class="form-control" formControlName="email" id="email"
-               type="email" placeholder="Email">
+      <div class="form-group">
         <label for="email">Email</label>
-        <mdb-error *ngIf="email.invalid && email.dirty">*Email invalide</mdb-error>
+        <input class="form-control" formControlName="email" id="email" type="email" placeholder="Email">
+        <div *ngIf="form.controls['email'].invalid && form.controls['email'].dirty" class="text-danger">*Email invalide</div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button (click)="modalRef.hide()" aria-label="Close" class="waves-light" color="secondary" mdbBtn
-            mdbWavesEffect type="button">Fermer
-    </button>
-    <button (click)="editRow()" [disabled]="form.invalid" class="relative waves-light" color="primary" mdbBtn
-            mdbWavesEffect type="button">Sauvegarder
-    </button>
+    <button (click)="modalRef.close()" class="waves-light btn-secondary" type="button">Fermer</button>
+    <button (click)="editRow()" [disabled]="form.invalid" class="relative waves-light btn-primary" type="button">Sauvegarder</button>
   </div>
 </div>

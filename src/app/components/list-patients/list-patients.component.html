@@ -3,92 +3,74 @@
     <div class="card-body">
       <h4 class="d-md-flex justify-content-center card-title">LISTE DES PATIENTS ENREGISTRES</h4>
       <p class="d-md-flex justify-content-center">
-        <small>( Uniquement pour les nouveaux patients de la clinique ! )</small></p>
-      <div>
-        <div class="row">
-          <div class="col-md-4 mx-auto">
-            <div class="md-form">
-              <input
-                type="text"
-                [(ngModel)]="nameSearch"
-                class="form-control"
-                id="nameSearch"
-                oninput="this.value = this.value.toUpperCase()"
-                mdbInput
-              />
-              <label for="nameSearch">Recherche par Nom</label>
-            </div>
+        <small>( Uniquement pour les nouveaux patients de la clinique ! )</small>
+      </p>
+      <div class="row">
+        <div class="col-md-4 mx-auto">
+          <div class="form-group">
+            <label for="nameSearch">Recherche par Nom</label>
+            <input
+              type="text"
+              [(ngModel)]="nameSearch"
+              class="form-control"
+              id="nameSearch"
+              (input)="nameSearch = nameSearch.toUpperCase()"
+            />
           </div>
-          <div class="col-md-4 mx-auto">
-            <div class="md-form">
-              <input
-                type="text"
-                [(ngModel)]="surnameSearch"
-                class="form-control"
-                id="surnameSearch"
-                oninput="this.value = this.value.toUpperCase()"
-                mdbInput
-              />
-              <label for="surnameSearch">Recherche par Prenom</label>
-            </div>
+        </div>
+        <div class="col-md-4 mx-auto">
+          <div class="form-group">
+            <label for="surnameSearch">Recherche par Prenom</label>
+            <input
+              type="text"
+              [(ngModel)]="surnameSearch"
+              class="form-control"
+              id="surnameSearch"
+              (input)="surnameSearch = surnameSearch.toUpperCase()"
+            />
           </div>
-          <div class="col-md-4 mx-auto">
-            <div class="md-form">
-              <input
-                type="text"
-                [(ngModel)]="telSearch"
-                class="form-control"
-                id="telSearch"
-                oninput="this.value = this.value.toUpperCase()"
-                mdbInput
-              />
-              <label for="telSearch">Recherche par Telephone</label>
-            </div>
+        </div>
+        <div class="col-md-4 mx-auto">
+          <div class="form-group">
+            <label for="telSearch">Recherche par Telephone</label>
+            <input
+              type="text"
+              [(ngModel)]="telSearch"
+              class="form-control"
+              id="telSearch"
+              (input)="telSearch = telSearch.toUpperCase()"
+            />
           </div>
-          <table mdbTable #tableEl="mdbTable" class="z-depth-5" hover="true" stickyHeader="" striped="true">
-            <thead class="">
+        </div>
+        <table class="table table-striped" #tableEl>
+          <thead>
             <tr>
-              <th *ngFor="let head of headElements; let i = index" [mdbTableSort]="elements | async"
-                  [sortBy]="headElements[i]" scope="col">{{head | titlecase}}
-                <!--<mdb-icon fas icon="sort"></mdb-icon>-->
-              </th>
+              <th *ngFor="let head of headElements; let i = index" scope="col">{{ head | titlecase }}</th>
             </tr>
-            </thead>
-            <tbody #row>
-            <tr *ngFor="let el of elements | async ; let i = index">
-              <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"
-                  scope="row">{{el.id}}
-              </th>
-              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.nom}}
-              </td>
-              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.prenom
-                }}
-              </td><td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.tel1}}
-              </td>
-              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.tel2}}
-              </td>
-              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                {{el.email}}
-              </td>
-              <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-                <button (click)="editRow(el)" color="warning" mdbBtn mdbWavesEffect size="sm">Modifier</button>
-                <button (click)="removeRow(el)" color="danger" mdbBtn mdbWavesEffect size="sm">Supprimer</button>
+          </thead>
+          <tbody #row>
+            <tr *ngFor="let el of elements | async; let i = index">
+              <th *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex" scope="row">{{ el.id }}</th>
+              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.nom }}</td>
+              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.prenom }}</td>
+              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.tel1 }}</td>
+              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.tel2 }}</td>
+              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.email }}</td>
+              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">
+                <button (click)="editRow(el)" class="btn btn-warning" size="sm">Modifier</button>
+                <button (click)="removeRow(el)" class="btn btn-danger" size="sm">Supprimer</button>
               </td>
             </tr>
-            </tbody>
-            <tfoot class="grey lighten-5 w-100">
-            <tr>
-              <td colspan="5">
-                <mdb-table-pagination [searchDataSource]="elements | async" [tableEl]="tableEl"
-                                      paginationAlign=""></mdb-table-pagination>
-              </td>
-            </tr>
-            </tfoot>
-          </table>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <ngb-pagination
+            [collectionSize]="(elements | async)?.length"
+            [pageSize]="tableEl.pageSize"
+            (pageChange)="tableEl.onPaginationChange($event)"
+          ></ngb-pagination>
         </div>
       </div>
     </div>

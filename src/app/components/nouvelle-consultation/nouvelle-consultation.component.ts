@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Subject} from 'rxjs';
-import {AbstractControl, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {MDBModalRef} from 'angular-bootstrap-md';
-import {Consultation} from '../../models/consultation.model';
+import { Subject } from 'rxjs';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap'; // Import NgbModalRef from ng-bootstrap
+import { Consultation } from '../../models/consultation.model';
 
 @Component({
   selector: 'app-nouvelle-consultation',
@@ -14,18 +14,17 @@ export class NouvelleConsultationComponent implements OnInit {
   public editableRow: Consultation;
   public saveButtonClicked: Subject<Consultation> = new Subject<Consultation>();
 
-  public form: UntypedFormGroup = new UntypedFormGroup({
-    // id: new FormControl({value: '', disabled: true}),
-    codeCons: new UntypedFormControl('', Validators.required),
-    designation: new UntypedFormControl('', Validators.required),
-    description: new UntypedFormControl('', Validators.required),
-    type: new UntypedFormControl('', Validators.required),
-    tarifNor: new UntypedFormControl('', Validators.required),
-    tarifAss: new UntypedFormControl(''),
-    dureeValidite: new UntypedFormControl('')
+  public form: FormGroup = new FormGroup({
+    codeCons: new FormControl('', Validators.required),
+    designation: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
+    tarifNor: new FormControl('', Validators.required),
+    tarifAss: new FormControl(''),
+    dureeValidite: new FormControl('')
   });
 
-  constructor(public modalRef: MDBModalRef) {
+  constructor(public modalRef: NgbModalRef) {
   }
 
   get codeCons(): AbstractControl {
@@ -51,26 +50,20 @@ export class NouvelleConsultationComponent implements OnInit {
   get tarifAss(): AbstractControl {
     return this.form.get('tarifAss');
   }
+
   get dureeValidite(): AbstractControl {
     return this.form.get('dureeValidite');
   }
 
   ngOnInit(): void {
-    // this.form.controls.id.patchValue(this.editableRow.id);
     if (this.editableRow) {
-      this.form.controls.codeCons.patchValue(this.editableRow.codeCons);
-      this.form.controls.designation.patchValue(this.editableRow.designation);
-      this.form.controls.description.patchValue(this.editableRow.description);
-      this.form.controls.tarifNor.patchValue(this.editableRow.tarifNor);
-      this.form.controls.tarifAss.patchValue(this.editableRow.tarifAss);
-      this.form.controls.type.patchValue(this.editableRow.type);
-      this.form.controls.dureeValidite.patchValue(this.editableRow.dureeValidite);
+      this.form.patchValue(this.editableRow);
     }
   }
 
   editRow(): void {
-    this.editableRow = Object.assign({}, this.editableRow, this.form.value);
+    this.editableRow = { ...this.editableRow, ...this.form.value };
     this.saveButtonClicked.next(this.editableRow);
-    this.modalRef.hide();
+    this.modalRef.dismiss(); // Use dismiss() to close the modal
   }
 }

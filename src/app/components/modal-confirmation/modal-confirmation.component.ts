@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {Subject} from 'rxjs';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MDBModalRef} from 'angular-bootstrap-md';
+import { Component } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-modal-confirmation',
@@ -13,11 +12,11 @@ export class ModalConfirmationComponent {
   public title = 'Confirmation';
   public deleteButtonClicked: Subject<any> = new Subject<any>();
 
-  constructor(public modalRef: MDBModalRef) {
+  constructor(public modalRef: NgbModalRef) {
   }
 
   deletePatient(): void {
     this.deleteButtonClicked.next('');
-    this.modalRef.hide();
+    this.modalRef.close();
   }
 }
