@@ -5,74 +5,7 @@
       <p class="d-md-flex justify-content-center">
         <small>( Uniquement pour les nouveaux patients de la clinique ! )</small>
       </p>
-      <div class="row">
-        <div class="col-md-4 mx-auto">
-          <div class="form-group">
-            <label for="nameSearch">Recherche par Nom</label>
-            <input
-              type="text"
-              [(ngModel)]="nameSearch"
-              class="form-control"
-              id="nameSearch"
-              (input)="nameSearch = nameSearch.toUpperCase()"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 mx-auto">
-          <div class="form-group">
-            <label for="surnameSearch">Recherche par Prenom</label>
-            <input
-              type="text"
-              [(ngModel)]="surnameSearch"
-              class="form-control"
-              id="surnameSearch"
-              (input)="surnameSearch = surnameSearch.toUpperCase()"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 mx-auto">
-          <div class="form-group">
-            <label for="telSearch">Recherche par Telephone</label>
-            <input
-              type="text"
-              [(ngModel)]="telSearch"
-              class="form-control"
-              id="telSearch"
-              (input)="telSearch = telSearch.toUpperCase()"
-            />
-          </div>
-        </div>
-        <table class="table table-striped" #tableEl>
-          <thead>
-            <tr>
-              <th *ngFor="let head of headElements; let i = index" scope="col">{{ head | titlecase }}</th>
-            </tr>
-          </thead>
-          <tbody #row>
-            <tr *ngFor="let el of elements | async; let i = index">
-              <th *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex" scope="row">{{ el.id }}</th>
-              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.nom }}</td>
-              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.prenom }}</td>
-              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.tel1 }}</td>
-              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.tel2 }}</td>
-              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">{{ el.email }}</td>
-              <td *ngIf="i + 1 >= tableEl.firstItemIndex && i < tableEl.lastItemIndex">
-                <button (click)="editRow(el)" class="btn btn-warning" size="sm">Modifier</button>
-                <button (click)="removeRow(el)" class="btn btn-danger" size="sm">Supprimer</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <ngb-pagination
-            [collectionSize]="(elements | async)?.length"
-            [pageSize]="tableEl.pageSize"
-            (pageChange)="tableEl.onPaginationChange($event)"
-          ></ngb-pagination>
-        </div>
-      </div>
+      <app-table-patients></app-table-patients>
     </div>
   </div>
 </div>

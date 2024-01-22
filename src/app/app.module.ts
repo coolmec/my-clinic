@@ -33,6 +33,7 @@ import { outil, outilsInjectionToken } from './utilities/outils';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TablePatientsComponent } from './components/table-patients/table-patients.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
@@ -48,7 +49,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     ModalConfirmationComponent,
     ConsultationsComponent,
     NouvelleConsultationComponent,
-    ConsultationPatientComponent,
+    ConsultationPatientComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +67,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     EffectsModule.forFeature([ConsultationPatientEffects]),    
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
-    NgbModule
+    NgbModule,
+    TablePatientsComponent
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},

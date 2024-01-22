@@ -31,11 +31,8 @@ export class ListPatientsComponent implements OnInit, OnDestroy, AfterViewInit {
     private cdRef: ChangeDetectorRef,
     private modalService: NgbModal,
     private store: Store,
-    tableEl: NgbPaginationConfig 
   ) {
-        // Configure NgbPagination
-        tableEl.pageSize = 10; // Set your desired page size
-        tableEl.boundaryLinks = true;
+
    }
 
   @HostListener('input') oninput() {
