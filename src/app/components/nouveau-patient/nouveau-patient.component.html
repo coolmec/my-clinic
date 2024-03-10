@@ -1,0 +1,381 @@
+<div class="container">
+  <div class="card border-white shadow">
+    <div class="card-body">
+      <h4 class="d-md-flex justify-content-center card-title">CREATION D&#39;UN COMPTE PATIENT</h4>
+      <p class="d-flex justify-content-center">
+        <small>(  Uniquement pour les nouveaux patients de la clinique ! )</small></p>
+      <div>
+        <form (ngSubmit)="onSubmitForm()" [formGroup]="patientForm">
+          <fieldset>
+            <legend>Identité</legend>
+            <div class="form-group mb-3">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-floating mb-3">
+                    <input class="form-control text-uppercase"
+                           oninput="this.value = this.value.toUpperCase()"
+                           formControlName="nom"
+                           id="nom"
+                           placeholder="Nom"
+                           type="text"/>
+                    <label class="form-label" for="nom">Nom :</label>
+                    <span *ngIf="patientForm.get('nom').hasError('required')" class="text-danger">
+                      *Champ obligatoire
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-floating mb-3">
+                    <input class="form-control text-uppercase"
+                           oninput="this.value = this.value.toUpperCase()"
+                           formControlName="prenom"
+                           id="prenom"
+                           placeholder="Prénom"
+                           type="text"/>
+                    <label class="form-label" for="prenom">Prénom :</label>
+                    <span *ngIf="patientForm.get('prenom').hasError('required')" class="text-danger">
+                      *Champ obligatoire
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-floating mb-3">
+                    <input class="form-control"
+                           formControlName="dateNaiss"
+                           id="dateNaiss"
+                           name="dateNaiss"
+                           placeholder="Date de Naissance"
+                           type="datetime-local"/>
+                    <label class="form-label text-truncate" for="dateNaiss">Date de Naissance :</label>
+                    <span *ngIf="patientForm.get('dateNaiss').hasError('required')" class="text-danger">
+                      *Champ obligatoire
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3 d-md-flex justify-content-md-center flex-md-wrap" style="padding-bottom: 14px;">
+                  <div class="d-md-flex justify-content-md-center align-items-md-center mb-3">
+                    <label class="form-label mt-md-1">Sexe :  </label>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input"
+                             formControlName="sexe"
+                             id="formCheck-2"
+                             name="sexe"
+                             value="M"
+                             type="radio"/>
+                      <label class="form-check-label" for="formCheck-2">M</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input"
+                             formControlName="sexe"
+                             id="formCheck-1"
+                             name="sexe"
+                             type="radio"
+                             value="F"/>
+                      <label class="form-check-label" for="formCheck-1">F</label>
+                    </div>
+                  </div>
+                  <span *ngIf="patientForm.get('sexe').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select (change)="onSelectTypeIdentite()" class="form-control text-uppercase"
+                            formControlName="typeIdentite"
+                            id="typeIdentite"
+                            placeholder="Type pièce d'identité"
+                            type="text">
+                      <optgroup label="Type de piece d'identité">
+                        <option *ngFor="let type of outil.typeIdentite; let i = index" [value]="type">
+                          {{type}}
+                        </option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="typeIdentite">Type de pièce d'identité :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('typeIdentite').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input [mask]="selectedMask" class="form-control"
+                           formControlName="numIdentite"
+                           id="numIdentite"
+                           placeholder="N° pièce d'identité"
+                           type="text"/>
+                    <label class="form-label" for="numIdentite">N° de pièce d'identité :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('numIdentite').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input class="form-control text-uppercase"
+                           formControlName="nationalite"
+                           oninput="this.value = this.value.toUpperCase()"
+                           id="nationalite"
+                           placeholder="Nationalité"
+                           type="text"/>
+                    <label class="form-label" for="nationalite">Nationalité :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('nationalite').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Résidence</legend>
+            <div class="form-group mb-3">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select (change)="onSelectCountry()" class="form-control text-uppercase"
+                            formControlName="pays"
+                            id="pays"
+                            placeholder="Pays"
+                            type="text">
+                      <optgroup label="Liste des pays">
+                        <option *ngFor="let pay of pays;" [value]="pay.name">{{pay.name}}</option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="pays">Pays :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('pays').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select class="form-control text-capitalize"
+                            formControlName="ville"
+                            id="ville"
+                            placeholder="Ville"
+                            type="text">
+                      <optgroup>
+                        <option *ngFor="let ville of villes;" [value]="ville.name">{{ville.name}}</option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="ville">Ville :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('ville').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input class="form-control text-capitalize"
+                           oninput="this.value = this.value.toUpperCase()"
+                           formControlName="quartier"
+                           id="quartier"
+                           placeholder="Quartier"
+                           type="text"/>
+                    <label class="form-label" for="quartier">Quartier :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('quartier').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Contacts</legend>
+            <div class="form-group mb-3">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input [prefix]="localPhoneCode" class="form-control"
+                           formControlName="tel1"
+                           id="tel1"
+                           mask=" 00-00-00-00"
+                           placeholder="Tél. 1"
+                           type="tel"/>
+                    <label class="form-label" for="tel1">Tél. 1 :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('tel1').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input [prefix]="selectedCountryPhoneCode" class="form-control"
+                           formControlName="tel2"
+                           id="tel2"
+                           mask=" 00-00-00-00"
+                           placeholder="Tél. 2"
+                           type="tel"/>
+                    <label class="form-label">Tél. 2 :</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input class="form-control text-lowercase"
+                           oninput="this.value = this.value.toLowerCase()"
+                           formControlName="email"
+                           id="email"
+                           placeholder="Email"
+                           type="email"/>
+                    <label class="form-label" for="email">Email :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('email').hasError('email')" class="text-danger align-bottom">
+                      *Email invalide
+                  </span>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Assurance Maladie</legend>
+            <div class="form-group mb-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-floating mb-3">
+                    <select class="form-select form-control"
+                            formControlName="pec"
+                            id="pec"
+                            name="pec">
+                      <optgroup label="PEC">
+                        <option value="oui">OUI</option>
+                        <option value="non">NON</option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="pec">PEC :</label>
+                  </div>
+                  <span *ngIf="patientForm.get('pec').hasError('required')" class="text-danger align-bottom">
+                      *Champ obligatoire
+                  </span>
+                </div>
+              </div>
+              <div *ngIf="this.patientForm.value.pec === 'oui'" class="row">
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select class="form-control"
+                            formControlName="assurance"
+                            id="assurance"
+                            placeholder="Assurance"
+                            type="text">
+                      <optgroup label="Assurances">
+                        <option *ngFor="let ins of outil.insurances;" value="ins">{{ins}}</option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="assurance">Assurance :</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input class="form-control"
+                           formControlName="numAssure"
+                           id="numAssure"
+                           placeholder="N° Assuré"
+                           type="number"/>
+                    <label class="form-label" for="numAssure">N° Assuré :</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <input class="form-control"
+                           formControlName="numAyantDroit"
+                           id="numAyantDroit"
+                           placeholder="N° Ayant-droit"
+                           type="number"/>
+                    <label class="form-label" for="numAyantDroit">N° Ayant-droit :</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Données Médicales</legend>
+            <div class="form-group mb-3">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select class="form-control text-capitalize"
+                            oninput="this.value = this.value.toUpperCase()"
+                            formControlName="groupSanguin"
+                            id="groupSanguin"
+                            placeholder="Groupe sanguin"
+                            type="text">
+                      <optgroup label="Groupe sanguin">
+                        <option *ngFor="let groupSanguin of outil.groupSanguin; let i = index"
+                                [value]="groupSanguin">{{groupSanguin}}</option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="groupSanguin">Groupe sanguin :</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select class="form-control text-capitalize"
+                            formControlName="rhesus"
+                            id="rhesus"
+                            placeholder="Rhésus"
+                            type="text">
+                      <optgroup label="Rhésus">
+                        <option *ngFor="let rhesus of outil.rhesus;" [value]="rhesus">{{rhesus}}</option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="rhesus">Rhésus :</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select class="form-control text-capitalize"
+                            oninput="this.value = this.value.toUpperCase()"
+                            formControlName="phenotypHb"
+                            id="phenotypHb"
+                            placeholder="Phénotype Hb"
+                            type="text">
+                      <optgroup label="Phénotype Hb">
+                        <option *ngFor="let phenotypHb of outil.phenotypHb;"
+                                [value]="phenotypHb">{{phenotypHb}}</option>
+                      </optgroup>
+                    </select>
+                    <label class="form-label" for="phenotypHb">Phénotype Hb :</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-floating mb-3">
+                    <textarea class="form-control text-lowercase"
+                              oninput="this.value = this.value.toLowerCase()"
+                              formControlName="pathologies"
+                              id="pathologies"
+                              placeholder="Pathologies connues">
+                    </textarea>
+                    <label class="form-label" for="pathologies">Pathologies connues :</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-floating mb-3">
+                    <textarea class="form-control text-lowercase"
+                              formControlName="allergies"
+                              id="allergies"
+                              placeholder="Allergies connues">
+                    </textarea>
+                    <label class="form-label" for="allergies">Allergies connues :</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-secondary rounded-pill" style="margin-left: 0px;margin-right: 10px;">Annuler</button>
+            <button [disabled]="!patientForm.valid" class="btn btn-secondary rounded-pill" style="margin-left: 10px;"
+                    type="Submit">Valider
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

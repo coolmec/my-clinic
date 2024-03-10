@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="card border-white shadow">
+    <div class="card-body">
+      <h4 class="d-md-flex justify-content-center card-title">LISTE DES CONSULTATIONS PRIS EN CHARGE</h4>
+      <p class="d-md-flex justify-content-center">
+        <small>( Uniquement pour les Administrateurs ! )</small>
+      </p>
+      <div>
+        <button (click)="createConsultation()" class="btn btn-primary" size="sm">Nouveau</button>
+        <div class="row"></div>
+        <div class="row">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th *ngFor="let head of headElements" scope="col">{{ head | titlecase }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let el of elements | async; let i = index">
+                <td *ngIf="i+1 >= currentPage && i < currentPage + itemsPerPage">{{ el.codeCons }}</td>
+                <td *ngIf="i+1 >= currentPage && i < currentPage + itemsPerPage">{{ el.designation }}</td>
+                <td *ngIf="i+1 >= currentPage && i < currentPage + itemsPerPage">{{ el.type }}</td>
+                <td *ngIf="i+1 >= currentPage && i < currentPage + itemsPerPage">{{ el.tarifNor }}</td>
+                <td *ngIf="i+1 >= currentPage && i < currentPage + itemsPerPage">{{ el.tarifAss }}</td>
+                <td *ngIf="i+1 >= currentPage && i < currentPage + itemsPerPage">{{ el.dureeValidite }}</td>
+                <td *ngIf="i+1 >= currentPage && i < currentPage + itemsPerPage">
+                  <button (click)="editRow(el)" class="btn btn-warning" size="sm">Modifier</button>
+                  <button (click)="removeRow(el)" class="btn btn-danger" size="sm">Supprimer</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <ngb-pagination 
+          [collectionSize]="(elements | async)?.length" 
+          [(page)]="currentPage" 
+          [pageSize]="itemsPerPage"            
+          [maxSize]="maxSize" 
+          [rotate]="rotate" 
+          [ellipses]="ellipses" 
+          [boundaryLinks]="boundaryLinks">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

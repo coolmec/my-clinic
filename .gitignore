@@ -4,8 +4,15 @@
 /dist
 /tmp
 /out-tsc
+
 # Only exists if Bazel was run
 /bazel-out
+
+# angular
+.angular
+
+# yarn
+.yarn
 
 # dependencies
 /node_modules
